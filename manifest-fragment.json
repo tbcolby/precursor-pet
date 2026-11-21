@@ -1,0 +1,14 @@
+{
+    "pet": {
+        "context_name": "Pet",
+        "menu_name": {
+            "appmenu.pet": {
+                "en": "Pet",
+                "en-tts": "Pet",
+                "fr": "Pet",
+                "ja": "Pet",
+                "zh": "Pet"
+            }
+        }
+    }
+}
