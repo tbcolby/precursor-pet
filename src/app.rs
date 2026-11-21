@@ -85,7 +85,7 @@ impl App {
     /// Apply the real time that has passed since the last look.
     fn sync(&mut self) {
         let wall = self.wall_s();
-        let e = self.clock.elapsed(wall, self.tt.elapsed_ms());
+        let e = self.clock.elapsed_secs(wall, self.tt.elapsed_ms());
         let mut best = self.best_age_s;
         if let Some(p) = self.pet.as_mut().filter(|p| p.alive) {
             let events = p.advance_auto(e);

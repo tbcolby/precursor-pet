@@ -421,16 +421,25 @@ fn full_boot_cycle_with_the_timekeeper() {
     // Evening: foreground, saved at wall 10_000 s.
     let mut tk = Timekeeper::default();
     let mut p = baby();
-    tk.elapsed(Some(10_000), 1_000);
+    tk.elapsed_secs(Some(10_000), 1_000);
     let saved = Saved { version: SAVE_VERSION, pet: Some(p.clone()), wall_s: tk.last_wall_s(), best_age_s: 0 };
 
     // Reboot 5 hours later; the ticktimer restarts near zero.
     let mut tk2 = Timekeeper::from_saved(saved.wall_s);
     let mut q = saved.pet.unwrap();
-    let e = tk2.elapsed(Some(10_000 + 5 * HOUR), 2_000);
+    let e = tk2.elapsed_secs(Some(10_000 + 5 * HOUR), 2_000);
     assert_eq!(e, 5 * HOUR);
     q.advance_auto(e);
     p.advance_auto(5 * HOUR);
     assert_eq!(p, q);
     assert!(q.hunger > 60 && q.alive);
+}
+
+/// Regression: syncing more often than once a second with the wall clock
+/// unset used to lose each call's sub-second remainder, so the pet aged slowly.
+#[test]
+fn frequent_syncs_without_wall_clock_keep_full_time() {
+    let mut tk = Timekeeper::default();
+    let total: u64 = (0..=120u64).map(|i| tk.elapsed_secs(None, i * 500)).sum();
+    assert_eq!(total, 60);
 }

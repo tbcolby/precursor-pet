@@ -2,7 +2,7 @@
 //!
 //! Time model: the pet lives in one-minute steps ([`TICK_S`]). The shell calls
 //! [`Pet::advance`] with the seconds that really passed (see
-//! `clock::Timekeeper`), whether that's a 20-second frame or a night in a
+//! `precursor_appkit_core::clock::Timekeeper`), whether that's a 20-second frame or a night in a
 //! pocket, so nothing is ticked by a timer and nothing needs the app to be in
 //! front. The result is the same however the elapsed time is chunked.
 //!
